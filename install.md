@@ -20,7 +20,7 @@ In this project, the environment, the database and the authentication are alread
 
 1. Clone the repository:
 
-`git clone https://github.com/devSpallian/spallian_blog.git`
+`git clone https://github.com/devSpallian/spallian_blog.git --config core.autocrlf=input`
 
 2. Switch to the repository folder:
 
