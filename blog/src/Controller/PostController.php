@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PostFormType;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class PostController extends AbstractController
 {
@@ -62,11 +65,11 @@ class PostController extends AbstractController
     /**
      * @Route("/modify-post/{id}", name="modify_post")
      */
-    public function edit(Request $request, int $id): Response
+    public function edit(Request $request, Post $post): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $post = $entityManager->getRepository(Post::class)->find($id);
+        if ($this->getUser() != $post->getUser()) {
+            throw $this->createAccessDeniedException("Vous n'avez pas le droit de modifier cet article !");
+        }
         $form = $this->createForm(PostFormType::class, $post);
         $form->handleRequest($request);
 
@@ -84,14 +87,20 @@ class PostController extends AbstractController
 
     /**
      * @Route("/delete-post/{id}", name="delete_post")
+    
      */
-    public function delete(int $id): Response
+    public function delete(int $id, Request $request, CsrfTokenManagerInterface $csrfTokenManager): Response
     {
+        $token = new CsrfToken('delete', $request->query->get('_csrf_token'));
+        if (!$csrfTokenManager->isTokenValid($token)) {
+            throw $this->createAccessDeniedException('Token CSRF invalide');
+        }else{
         $entityManager = $this->getDoctrine()->getManager();
         $post = $entityManager->getRepository(Post::class)->find($id);
         $entityManager->remove($post);
         $entityManager->flush();
 
         return $this->redirectToRoute("posts");
+        }
     }
 }

@@ -28,5 +28,5 @@ security:
         ROLE_ADMIN: ROLE_USER
 
     access_control:
-        - { path: ^/articles, roles: ROLE_USER }
+        - { path: ^/posts, roles: ROLE_USER }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
