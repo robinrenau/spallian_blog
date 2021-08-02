@@ -16,7 +16,7 @@
                 {% for post in posts %}
                 <tbody>
                     
-                        <td>{{ post.title }}</td>
+                        <td><a href="{{ path('post', {'id': post.id}) }}">{{ post.title }}</a></td>
                         <td>{{ post.createdAt|date ("d/m/Y H:i") }}</td>
                         <td>{{ post.user.email }}</td>
                     

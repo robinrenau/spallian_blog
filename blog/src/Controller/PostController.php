@@ -50,12 +50,12 @@ class PostController extends AbstractController
     /**
      * @Route("/post/{id}", name="post")
      */
-    public function product(int $id): Response
+    public function post(int $id): Response
     {
-        $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
 
-        return $this->render("product/product.html.twig", [
-            "product" => $product,
+        return $this->render("post/show.html.twig", [
+            "post" => $post,
         ]);
     }
 }
