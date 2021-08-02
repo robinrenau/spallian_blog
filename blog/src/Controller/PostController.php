@@ -26,7 +26,7 @@ class PostController extends AbstractController
     /**
      * @Route("/add-post", name="add_post")
      */
-    public function addPost(Request $request): Response
+    public function new(Request $request): Response
     {
         $post = new Post();
         $form = $this->createForm(PostFormType::class, $post);
@@ -39,7 +39,7 @@ class PostController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->redirectToRoute('post');
+            return $this->redirectToRoute('posts');
         }
 
         return $this->render("post/new.html.twig", [
@@ -50,12 +50,48 @@ class PostController extends AbstractController
     /**
      * @Route("/post/{id}", name="post")
      */
-    public function post(int $id): Response
+    public function show(int $id): Response
     {
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
 
         return $this->render("post/show.html.twig", [
             "post" => $post,
         ]);
+    }
+
+    /**
+     * @Route("/modify-post/{id}", name="modify_post")
+     */
+    public function edit(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $post = $entityManager->getRepository(Post::class)->find($id);
+        $form = $this->createForm(PostFormType::class, $post);
+        $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('posts', ['id' => $post->getUser()->getId()]);
+        }
+
+        return $this->render('post/edit.html.twig', [
+            'post' => $post,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/delete-post/{id}", name="delete_post")
+     */
+    public function delete(int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $post = $entityManager->getRepository(Post::class)->find($id);
+        $entityManager->remove($post);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("posts");
     }
 }

@@ -1,0 +1,12 @@
+
+{% block title %}Modifier l'article - Spallian Blog{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('posts') }}">Revenir à l'accueil</a>
+    <h1 >Modifier l'article</h1>
+{# Appel de mon template formulaire d'une activité #}
+    {{ include('post/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+
+{% endblock %}
