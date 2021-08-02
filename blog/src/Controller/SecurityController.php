@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    const ARTICLES_ROUTE = 'articles';
+    
 
     /**
      * @Route(name="login")
@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute(self::ARTICLES_ROUTE);
+            return $this->redirectToRoute('posts');
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();

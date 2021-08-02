@@ -2,20 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\PostFormType;
 
 class PostController extends AbstractController
 {
     /**
-     * @Route("/post", name="post")
+     * @Route("/posts", name="posts")
      */
     public function index(): Response
     {
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
+
         return $this->render('post/index.html.twig', [
-            'controller_name' => 'PostController',
+             "posts" => $posts,
         ]);
     }
 
@@ -24,11 +28,34 @@ class PostController extends AbstractController
      */
     public function addPost(Request $request): Response
     {
-        $form = $this->createForm(PostFormType::class);
+        $post = new Post();
+        $form = $this->createForm(PostFormType::class, $post);
+        $form->handleRequest($request);
 
-        return $this->render("post/post-form.html.twig", [
-            "form_title" => "Ajouter un article",
-            "form_post" => $form->createView(),
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $post->setUser($this->getUser());
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('post');
+        }
+
+        return $this->render("post/new.html.twig", [
+            'post' => $post,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/post/{id}", name="post")
+     */
+    public function product(int $id): Response
+    {
+        $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
+
+        return $this->render("product/product.html.twig", [
+            "product" => $product,
         ]);
     }
 }

@@ -15,8 +15,8 @@ class PostFormType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('subtitle')
-            ->add('created_at')
-            ->add('author')
+          
+         
         ;
     }
 

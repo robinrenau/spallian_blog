@@ -119,7 +119,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
 
         return new RedirectResponse(
-            $this->urlGenerator->generate(self::ARTICLES_ROUTE)
+            $this->urlGenerator->generate('posts')
         );
     }
 
