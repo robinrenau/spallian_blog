@@ -14,11 +14,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class PostController extends AbstractController
 {
+    public function __construct(){
+        date_default_timezone_set("Europe/Paris");
+
+    }
+    
     /**
      * @Route("/posts", name="posts")
      */
+    
+
     public function index(): Response
     {
+        
         $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
 
         return $this->render('post/index.html.twig', [

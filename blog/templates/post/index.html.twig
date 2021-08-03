@@ -4,34 +4,47 @@
 
 {% block content %}
     <div style="text-align: center;">
-       <h1>Liste des articles publiés</h1>
-       
+       <h1 class="display-4" style="margin-bottom:30px">Liste des articles publiés</h1>
+            <div class="d-flex justify-content-center">
+                <table class="table" style="margin:30px">
+                    <thead>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Date de création</th>
+                        <th scope="col">Auteur</th>
+                        <th scope="col">Actions</th>
+                        <th scope="col">Détail</th>
+                    </thead>
+                    {% for post in posts %}
+                        <tbody>
+                            <td>
+                                {{ post.title }}
+                            </td>
+                            <td>{{ post.createdAt|date ("d/m/Y H:i") }}</td>
+                            <td>{{ post.user.email }}</td>
+                            <td>
+                                <a href="{{ path('modify_post', {'id': post.id}) }}">
+                                    <i class="bi bi-gear-fill"></i>
+                                </a>
+                                {% if is_granted('ROLE_ADMIN') or app.user.id == post.user.id %}
+                                
+                                    <a href="{{ path('delete_post', {'id': post.id, _csrf_token: csrf_token('delete')}) }}">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                
+                            {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ path('post', {'id': post.id}) }}"><i class="bi bi-eye"></i> </a>
+                            </td>
+                            
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+             
         
-            <table>
-                <thead>
-                    <th>Titre</th>
-                    <th>Date de création</th>
-                    <th>Auteur</th>
-                    <th>Modifier</th>
-                    <th>Supprimer</th>
-                   
-                </thead>
-                {% for post in posts %}
-                <tbody>
-                    <td><a href="{{ path('post', {'id': post.id}) }}">{{ post.title }}</a></td>
-                    <td>{{ post.createdAt|date ("d/m/Y H:i") }}</td>
-                    <td>{{ post.user.email }}</td>
-                    <td><a href="{{ path('modify_post', {'id': post.id}) }}">Modifier</a></td>
-                    {% if is_granted('ROLE_ADMIN') or app.user.id == post.user.id %}
-                    <td><a href="{{ path('delete_post', {'id': post.id, _csrf_token: csrf_token('delete')}) }}">Supprimer</a></td>
-                    {% endif %}
-                </tbody>
-                {% endfor %}
-            </table>
-        
-        <a href="{{ path('add_post') }}" role="button">
-                    <i class="fa fa-th-large"></i>
-                    Rédiger un nouvel article
+        <a class="btn btn-primary" href="{{ path('add_post') }}" role="button"> 
+            <i class="bi bi-plus"></i>Rédiger un nouvel article 
         </a>
     </div>
     

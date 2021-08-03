@@ -1,7 +1,7 @@
 {% if app.user %}
-    <div style="text-align: right;">
-        <a href={{ path("logout") }}>
-            Logout
+    <div style="text-align: right; margin-right:10px; margin-top:10px">
+        <a href={{ path("logout") }} class="btn btn-danger">
+            <i class="bi bi-box-arrow-right"></i> Déconnexion
         </a>
     </div>
 {% endif %}

@@ -2,8 +2,11 @@
 {% block title %}Création d'un article{% endblock %}
 
 {% block body %}
-    <a  href="{{ path('posts') }}"> Revenir à l' accueil</a>
-    <h1>Rédiger un article</h1>
-    {# Appel de mon template formulaire d'une activité#}
-    {{ include('post/_form.html.twig') }}
+    <div style="margin:30px"> 
+        <a  class="btn btn-info" href="{{ path('posts') }}"> <i class="bi bi-box-arrow-in-left"></i> Revenir à l' accueil</a>
+        <h1 class="display-4">Rédiger un article</h1>
+        {# Appel de mon template formulaire d'une activité#}
+        {{ include('post/_form.html.twig') }}
+
+    </div>  
 {% endblock %}
