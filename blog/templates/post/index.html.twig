@@ -25,13 +25,12 @@
                                 <a href="{{ path('modify_post', {'id': post.id}) }}">
                                     <i class="bi bi-gear-fill"></i>
                                 </a>
+                                
                                 {% if is_granted('ROLE_ADMIN') or app.user.id == post.user.id %}
-                                
-                                    <a href="{{ path('delete_post', {'id': post.id, _csrf_token: csrf_token('delete')}) }}">
+                                <a href="{{ path('delete_post', {'id': post.id, _csrf_token: csrf_token('delete')}) }}">
                                         <i class="bi bi-trash"></i>
-                                    </a>
-                                
-                            {% endif %}
+                                </a>
+                                {% endif %}
                             </td>
                             <td>
                                 <a href="{{ path('post', {'id': post.id}) }}"><i class="bi bi-eye"></i> </a>

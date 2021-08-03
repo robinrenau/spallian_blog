@@ -22,8 +22,6 @@ class PostController extends AbstractController
     /**
      * @Route("/posts", name="posts")
      */
-    
-
     public function index(): Response
     {
         
@@ -58,6 +56,7 @@ class PostController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
     /**
      * @Route("/post/{id}", name="post")
      */
