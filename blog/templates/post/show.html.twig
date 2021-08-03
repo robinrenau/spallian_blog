@@ -3,7 +3,13 @@
 {% block title %}{{ post.title }} - Spallian Blog{% endblock %}
 
 {% block body %}
-
-<h1>Titre: {{ post.title }}</h1>
-<p>Contenu : {{ post.content }}</p>
+  <a style="margin:30px" class="btn btn-info" href="{{ path('posts') }}"> <i class="bi bi-box-arrow-in-left"></i> Revenir à l' accueil</a>
+  <div class="card" style="margin:30px">
+    <h3 class="card-header">{{ post.title }}</h3>
+    <div class="card-body">
+      <h6 class="card-title">{{post.subtitle}}</h6>
+      <p class="card-text">{{post.content}}</p>
+      <span class="badge badge-secondary"> Crée le {{post.createdAt|date ("d/m/Y H:i") }} par {{post.user.email}}</span>
+    </div>
+  </div>
 {% endblock %}

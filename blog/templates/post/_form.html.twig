@@ -1,4 +1,23 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.title, {
+         attr: {
+             'placeholder': "Titre de l'article",
+             'class' : 'col-md-7'
+         },
+         label: "Titre"
+     }) }}
+     {{ form_row(form.subtitle, {
+         attr: {
+             'placeholder': "Sous-titre de l'article",
+             'class' : 'col-md-7'
+         },
+         label: "Sous-titre"
+     }) }}
+     {{ form_row(form.content, {
+        attr: {
+            'placeholder': "Contenu de l'article"
+        },
+        label: "Contenu"
+    }) }}
     <button style="text-align: right;" class="btn btn-primary"><i class="bi bi-file-earmark-post"></i> {{ button_label|default("Publier l'article") }}</button>
 {{ form_end(form) }}
